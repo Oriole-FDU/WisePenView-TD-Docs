@@ -1,30 +1,207 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
-
-/* You can override the default Infima variables here. */
+/* 两套品牌主题各自拥有完整的 Radix 12-step 色阶；通过 --fudan-theme 在配置中切换。 */
+:root,
+[data-fudan-theme='blue'] {
+  --fudan-theme: blue;
+  --fudan-1: #f8faff; --fudan-2: #f0f4ff; --fudan-3: #e5edff; --fudan-4: #d8e4ff;
+  --fudan-5: #cad9ff; --fudan-6: #b8caff; --fudan-7: #9fb5fa; --fudan-8: #7e9bef;
+  --fudan-9: #0e419c; --fudan-10: #093584; --fudan-11: #3159a0; --fudan-12: #142b59;
+}
+[data-fudan-theme='red'] {
+  --fudan-theme: red;
+  --fudan-1: #fffafa; --fudan-2: #fff3f2; --fudan-3: #ffe8e6; --fudan-4: #ffd9d6;
+  --fudan-5: #ffcbc7; --fudan-6: #f8b7b2; --fudan-7: #eca09b; --fudan-8: #df817d;
+  --fudan-9: #cc1a1a; --fudan-10: #b31313; --fudan-11: #c53636; --fudan-12: #5f1515;
+}
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* 官方标准色：复旦蓝 RGB(14,65,156)，复旦红 RGB(204,26,26)。
+     只需将 data-fudan-theme 改为 red，即可切换整套主题色阶。 */
+  --fudan-blue: #0e419c; --fudan-red: #cc1a1a;
+  --brand-primary: var(--fudan-9);
+  --brand-1: var(--fudan-1); --brand-2: var(--fudan-2); --brand-3: var(--fudan-3); --brand-4: var(--fudan-4);
+  --brand-5: var(--fudan-5); --brand-6: var(--fudan-6); --brand-7: var(--fudan-7); --brand-8: var(--fudan-8);
+  --brand-9: var(--fudan-9); --brand-10: var(--fudan-10); --brand-11: var(--fudan-11); --brand-12: var(--fudan-12);
+  /* WisePenView 的 neutral 层：边框、分隔线、普通文本和表面优先使用中性色。 */
+  --neutral-1: #fcfcfd; --neutral-2: #f9f9fb; --neutral-3: #f0f0f3; --neutral-4: #e8e8ec;
+  --neutral-5: #e0e1e6; --neutral-6: #d9d9e0; --neutral-7: #cdced6; --neutral-8: #b9bbc6;
+  --neutral-9: #8b8d98; --neutral-10: #80838d; --neutral-11: #60646c; --neutral-12: #1c2024;
+  /* 按 Radix 语义命名：默认背景、组件、边框、文本分别落在对应阶数。 */
+  --surface-app: var(--brand-1); --surface-subtle: var(--brand-2);
+  --surface-component: var(--brand-3); --surface-hover: var(--brand-4); --surface-selected: var(--brand-5);
+  --border-subtle: var(--neutral-6); --border-interactive: var(--neutral-7); --border-focus: var(--neutral-8);
+  --text-muted: var(--neutral-11); --text-strong: var(--neutral-12); --solid: var(--brand-9); --solid-hover: var(--brand-10);
+  --fudan-red-accent: var(--fudan-red);
+  --wise-font-family: 'PingFang SC','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --ifm-font-family-base: var(--wise-font-family);
+  --ifm-color-primary: var(--brand-9);
+  --ifm-color-primary-dark: var(--brand-10); --ifm-color-primary-darker: var(--brand-12); --ifm-color-primary-darkest: var(--brand-12);
+  --ifm-color-primary-light: var(--brand-8); --ifm-color-primary-lighter: var(--brand-7); --ifm-color-primary-lightest: var(--brand-5);
+  --ifm-background-color: var(--surface-app); --ifm-navbar-background-color: color-mix(in srgb, var(--brand-1) 94%, transparent);
+  --ifm-heading-color: var(--text-strong); --ifm-font-color-base: var(--text-strong); --ifm-link-color: var(--brand-11);
+  --ifm-global-radius: 6px; --ifm-code-font-size: 90%;
+}
+html { font-size: 15px; background: var(--ifm-background-color); text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+body { background: var(--ifm-background-color); }
+.navbar { border-bottom: 1px solid var(--border-subtle); box-shadow: 0 1px 10px rgba(28,32,36,.06); }
+.navbar__brand { gap: 10px; }
+.navbar__logo { width: 30px; height: 30px; }
+.navbar__title { display: none; }
+.navbar__link { color: var(--text-muted); font-size: 13px; font-weight: 600; }
+.navbar__link:hover, .navbar__link--active { color: var(--brand-primary); }
+/* 顶部导航是 Tab：激活项沿 header 底部 neutral 边框显示 accent 下划线。 */
+.navbar__item > .navbar__link { position: relative; height: 100%; display: flex; align-items: center; }
+.navbar__item > .navbar__link--active::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--brand-9); }
+.theme-doc-sidebar-container { border-right: 1px solid var(--border-subtle); background: var(--surface-subtle); }
+.menu { padding: 16px 12px !important; }
+.menu__link { color: var(--text-muted); border-radius: 6px; }
+.menu__link:hover { background: var(--surface-component); color: var(--text-strong); }
+.menu__link--active { background: var(--surface-selected); color: var(--text-strong); font-weight: 700; }
+.theme-doc-markdown h1 { font-size: 2.35rem; letter-spacing: -.02em; }
+.theme-doc-markdown h2 { border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; margin-top: 2.5rem; }
+.theme-doc-markdown table { display: table; width: 100%; border-collapse: collapse; }
+.theme-doc-markdown th { background: var(--surface-component); color: var(--text-strong); }
+.theme-doc-markdown th, .theme-doc-markdown td { border: 1px solid var(--border-subtle); padding: .75rem .9rem; }
+.theme-doc-markdown blockquote { border-left-color: var(--neutral-7); background: var(--surface-subtle); color: inherit; }
+.footer { border-top: 1px solid var(--border-subtle); background: var(--surface-subtle); }
+
+html[data-theme='dark'] { color-scheme: light; }
+/* Footer 只承载简短版权信息，保持紧凑的单行高度。 */
+.footer { padding: 14px 0 16px; }
+.footer__bottom { margin-top: 0; }
+.footer__copyright { font-size: 13px; line-height: 20px; }
+/* Logo 与首页 Tab 之间保持紧凑间距。 */
+.navbar__brand { margin-right: 8px; }
+
+/* Markdown 内容区与 WisePenView 笔记编辑器对齐：正文 16px / 1.68，标题使用 Medium。 */
+.theme-doc-markdown {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.68;
+}
+.theme-doc-markdown p,
+.theme-doc-markdown li,
+.theme-doc-markdown td,
+.theme-doc-markdown th,
+.theme-doc-markdown blockquote {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.68;
+}
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  border-top: 0;
+}
+.theme-doc-markdown h1 { font-size: 25px; margin-top: 18px; margin-bottom: 8px; }
+.theme-doc-markdown h2 { font-size: 22px; margin-top: 18px; margin-bottom: 8px; padding-top: 0; }
+.theme-doc-markdown h3 { font-size: 20px; margin-top: 18px; margin-bottom: 8px; }
+.theme-doc-markdown h4 { font-size: 18px; margin-top: 18px; margin-bottom: 8px; }
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 { font-size: 16px; margin-top: 18px; margin-bottom: 8px; }
+.theme-doc-markdown p,
+.theme-doc-markdown ul,
+.theme-doc-markdown ol,
+.theme-doc-markdown blockquote,
+.theme-doc-markdown table { margin-bottom: 4px; }
+
+/* 正文阅读列控制在适合长文阅读的宽度，桌面端上限约 818px。 */
+.theme-doc-markdown {
+  width: 100%;
+  max-width: 818px;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+/* Markdown 按 WisePenView 笔记的 block 节奏排版，而不是把内容压成连续文本流。 */
+.theme-doc-markdown > p,
+.theme-doc-markdown > ul,
+.theme-doc-markdown > ol,
+.theme-doc-markdown > blockquote,
+.theme-doc-markdown > table,
+.theme-doc-markdown > pre {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+.theme-doc-markdown > h1,
+.theme-doc-markdown > h2,
+.theme-doc-markdown > h3,
+.theme-doc-markdown > h4,
+.theme-doc-markdown > h5,
+.theme-doc-markdown > h6 {
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+.theme-doc-markdown > ul,
+.theme-doc-markdown > ol {
+  padding-left: 1.5em;
+}
+.theme-doc-markdown > table {
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+/* 文档正文容器的阅读留白：避免默认 15px 在长文阅读中贴近视口边缘。 */
+main[class*='docMainContainer'] > .container {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+@media (max-width: 1100px) {
+  main[class*='docMainContainer'] > .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  main[class*='docMainContainer'] > .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+
+/* 文章主体与底部分页共享正文阅读列宽，避免导航卡片比正文多出一截。 */
+[class*='docItemContainer'] {
+  width: 100%;
+  max-width: 818px;
+}
+
+.pagination-nav {
+  width: 100%;
+  max-width: 818px;
+}
+
+/* 目录在宽屏阅读区展示，窄于 1440px 时隐藏以避免挤压正文。 */
+@media (max-width: 1439px) {
+  .theme-doc-toc-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .theme-doc-toc-desktop {
+    display: block !important;
+  }
+}
+
+/* 窄屏分页导航改为正文列内的单列满宽卡片，避免单个下一页入口悬空偏右。 */
+@media (max-width: 1100px) {
+  .pagination-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .pagination-nav__link {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .pagination-nav__link--next {
+    grid-column: 1 / -1;
+  }
 }
